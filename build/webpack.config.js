@@ -3,7 +3,7 @@ var webpack = require('webpack')
 var libraryName = 'VueShortkey'
 
 module.exports = {
-  entry: './src/index.js',
+  entry: ["babel-polyfill", './src/index.js'],
   output: {
     path: path.resolve(__dirname, '../dist/'),
     publicPath: '../dist/',
