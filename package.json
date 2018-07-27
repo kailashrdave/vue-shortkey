@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
-    "build": "NODE_ENV=production node build/build.js",
+    "build": "cross-env NODE_ENV=production  node build/build.js",
     "test": "karma start test/karma.conf.js --single-run",
     "coverage": "nyc mocha test/**/*.js"
   },
@@ -15,6 +15,8 @@
     "url": "git+https://github.com/iFgR/vue-shortkey.git"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "custom-event-polyfill": "^1.0.6",
     "vue": "^2.1.0"
   },
   "keywords": [
