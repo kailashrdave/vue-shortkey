@@ -1,3 +1,4 @@
+import "babel-polyfill";
 import 'element-matches';
 
 let ShortKey = {}
@@ -5,6 +6,22 @@ let mapFunctions = {}
 let objAvoided = []
 let elementAvoided = []
 let keyPressed = false
+
+(function () {
+
+  if ( typeof window.CustomEvent === "function" ) return false;
+
+  function CustomEvent ( event, params ) {
+    params = params || { bubbles: false, cancelable: false, detail: undefined };
+    var evt = document.createEvent( 'CustomEvent' );
+    evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+    return evt;
+   }
+
+  CustomEvent.prototype = window.Event.prototype;
+
+  window.CustomEvent = CustomEvent;
+})();
 
 const parseValue = (value) => {
   value = typeof value === 'string' ? JSON.parse(value.replace(/\'/gi, '"')) : value
@@ -109,7 +126,7 @@ const createShortcutIndex = (pKey) => {
 }
 
 const dispatchShortkeyEvent = (pKey) => {
-  const e = new Event('shortkey', { bubbles: false })
+  const e = new CustomEvent('shortkey', { bubbles: false })
   if (mapFunctions[pKey].key) e.srcKey = mapFunctions[pKey].key
   const elm = mapFunctions[pKey].el
   elm[elm.length - 1].dispatchEvent(e)
